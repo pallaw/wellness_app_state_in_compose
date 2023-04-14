@@ -23,15 +23,16 @@ import com.example.stateinjetpackcompose.ui.theme.StateInJetpackComposeTheme
 @Composable
 fun WellnessTaskListItem(
     taskName: String,
+    isChecked: Boolean,
     onCloseTask: () -> Unit,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var checkedStatus by rememberSaveable { mutableStateOf(false) }
 
     StatelessWellnessTaskListItem(
         taskName = taskName,
-        checked = checkedStatus,
-        onCheckedChange = { newValue -> checkedStatus = newValue },
+        checked = isChecked,
+        onCheckedChange = {currentCheckedStatus -> onCheckedChange(currentCheckedStatus) },
         onClose = onCloseTask,
         modifier = modifier
     )
@@ -61,6 +62,11 @@ fun StatelessWellnessTaskListItem(
 @Composable
 fun WellnessTaskListItemPreview() {
     StateInJetpackComposeTheme {
-        WellnessTaskListItem("what to do", {})
+        WellnessTaskListItem(
+            "what to do",
+            true,
+            {},
+            {}
+        )
     }
 }

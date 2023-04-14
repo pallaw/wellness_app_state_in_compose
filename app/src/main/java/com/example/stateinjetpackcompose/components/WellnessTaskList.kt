@@ -12,13 +12,19 @@ import com.example.stateinjetpackcompose.ui.theme.StateInJetpackComposeTheme
 fun WellnessTaskList(
     list: List<WelnessTask>,
     onClose: (WelnessTask) -> Unit,
+    onItemCheckedChange: (WelnessTask, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(list, key = {item -> item.id }) { item ->
-            WellnessTaskListItem(taskName = item.name, onCloseTask = {onClose(item)})
+            WellnessTaskListItem(
+                taskName = item.name,
+                onCloseTask = {onClose(item)},
+                isChecked = item.checked,
+                onCheckedChange = {onItemCheckedChange(item, it)}
+            )
         }
     }
 }
@@ -29,7 +35,8 @@ fun WellnessTaskListPreview() {
     StateInJetpackComposeTheme {
         WellnessTaskList(
             list = List(20){number -> WelnessTask(number, "Task #{$number}") },
-            {}
+            {},
+            {_,_ ->}
         )
     }
 }
